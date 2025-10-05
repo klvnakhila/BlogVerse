@@ -25,7 +25,7 @@ app.use(express.json())
 // }))
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://blogverse-backend-five.vercel.app"
+  "https://blogverse-blogging.vercel.app"
 ];
 
 app.use(cors({
