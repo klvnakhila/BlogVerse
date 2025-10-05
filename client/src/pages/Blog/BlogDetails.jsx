@@ -20,6 +20,7 @@ import { useState } from 'react'
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import moment from 'moment'
+import CategoryRequestForm from '../Category/CategoryRequestForm' 
 const BlogDetails = () => {
     const [refreshData, setRefreshData] = useState(false)
     const { data: blogData, loading, error } = useFetch(`${getEnv('VITE_API_BASE_URL')}/blog/get-all`, {
@@ -41,6 +42,20 @@ const BlogDetails = () => {
     if (loading) return <Loading />
     return (
         <div>
+            {/* Button to show/hide category request form */}
+            <div className="flex justify-end mb-4">
+                <Button onClick={() => setShowRequestForm(!showRequestForm)}>
+                    {showRequestForm ? 'Hide Category Request' : 'Request New Category'}
+                </Button>
+            </div>
+
+            {/* Category Request Form */}
+            {showRequestForm && (
+                <CategoryRequestForm onRequestSuccess={() => {
+                    showToast('success', 'Request submitted!')
+                    setShowRequestForm(false)
+                }} />
+            )}
             <Card>
                 <CardHeader>
                     <div>
