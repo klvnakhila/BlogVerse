@@ -28,23 +28,21 @@ app.use(express.json())
 const allowedOrigins = [
   "http://localhost:5173",
   "https://blogverse-blogging.vercel.app",
-  "https://blogverse-backend-mu.vercel.app"
+  "https://blogverse-backend-five.vercel.app"
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow server-to-server requests
+    if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
-  methods: ['GET','POST','PUT','DELETE','OPTIONS']
+  credentials: true
 }));
 
-// Ensure preflight requests respond properly
 app.options('*', cors({
   origin: function(origin, callback) {
     if (!origin) return callback(null, true);
