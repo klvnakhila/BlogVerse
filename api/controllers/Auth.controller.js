@@ -52,7 +52,7 @@ export const Login = async (req, res, next) => {
             role: user.role 
         }, process.env.JWT_SECRET)
 
-
+        
         res.cookie('access_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -122,22 +122,41 @@ export const GoogleLogin = async (req, res, next) => {
 
 
 
+// export const Logout = async (req, res, next) => {
+//     try {
+
+//         res.clearCookie('access_token', {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === 'production',
+//             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+//             path: '/'
+//         })
+
+//         res.status(200).json({
+//             success: true,
+//             message: 'Logout successful.'
+//         })
+
+//     } catch (error) {
+//         next(handleError(500, error.message))
+//     }
+// }
 export const Logout = async (req, res, next) => {
-    try {
+  try {
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      path: '/'
+    };
 
-        res.clearCookie('access_token', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            path: '/'
-        })
+    res.clearCookie('access_token', cookieOptions);
 
-        res.status(200).json({
-            success: true,
-            message: 'Logout successful.'
-        })
-
-    } catch (error) {
-        next(handleError(500, error.message))
-    }
-}
+    res.status(200).json({
+      success: true,
+      message: 'Logout successful.'
+    });
+  } catch (error) {
+    next(handleError(500, error.message));
+  }
+};
