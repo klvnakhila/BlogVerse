@@ -13,9 +13,15 @@ const CategoryRequestForm = ({ onClose, onRequestSuccess }) => {
     }
 
     try {
-      const response = await axios.post('/api/category-requests', {
-        name: categoryName,
-      });
+      // const response = await axios.post('/api/category-requests', {
+      //   name: categoryName,
+      // });
+      const response = await axios.post(`${process.env.VITE_API_BASE_URL}/category-requests/create`, {
+  name: categoryName,
+}, {
+  withCredentials: true
+});
+
 
       if (response.status === 201 || response.status === 200) {
         setMessage('Category request submitted successfully!');
