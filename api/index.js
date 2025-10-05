@@ -19,10 +19,26 @@ const app = express()
 
 app.use(cookieParser())
 app.use(express.json())
+// app.use(cors({
+//     origin: process.env.FRONTEND_URL,
+//     credentials: true
+// }))
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://blogverse-backend-five.vercel.app"
+];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true
-}))
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 
 // route setup  
 app.use('/api/auth', AuthRoute)
